@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import TextField from '@material-ui/core/TextField';
+import firebase from '../firebase'
 
 const SignUpPage = () => {
     const [email, setEmail]=useState("")
@@ -8,7 +9,15 @@ const SignUpPage = () => {
 
     const onSubmit = (e) => {
         e.preventDefault()
-        console.log(email + ":" + name + ":" + password)
+        firebase.auth()
+        .createUserWithEmailAndPassword(email, password)
+        .catch((error) => {
+            console.log(error)
+            // // Handle Errors here.
+            // var errorCode = error.code;
+            // var errorMessage = error.message;
+            // // ...
+          });
     }
 
     return (
