@@ -13,10 +13,19 @@ const SignUpPage = () => {
 
   const onSubmit = (e) => {
     e.preventDefault()
+
     firebase.auth()
       .createUserWithEmailAndPassword(email, password)
       .then(() => {
         console.log("アカウントを新規作成しました！")
+
+        firebase.auth().currentUser.updateProfile({
+            displayName: name,
+          }).then(function() {
+            console.log("displayNameが登録されました")
+          }).catch(() => {
+            console.log("失敗")
+          });
       }).catch((error) => {
         console.log(error)
       })
