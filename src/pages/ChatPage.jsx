@@ -41,6 +41,16 @@ const ChatPage = () => {
         })
     }, [])
 
+    // useEffect(() => {
+    //     db.collection("messages").get().then((querySnapshot) => {
+    //         const getMessages=[]
+    //         querySnapshot.forEach((doc) => {
+    //             getMessages.push(doc.data())
+    //         })
+    //         setMessages(getMessages)
+    //     })
+    // }, [messages])
+
     const logout = () => {
         firebase.auth().signOut().then(function() {
             setUser(false)
@@ -49,13 +59,6 @@ const ChatPage = () => {
           });
     }
 
-    // const messages = {
-    //     sD9UQn27DFxitDhBIMad:{
-    //         name:"",
-    //         content:"",
-    //     }
-    // }
-
     return (
         <div>
             <h1>Chat</h1>
@@ -63,18 +66,27 @@ const ChatPage = () => {
             <hr/>
             {messages.map((message, index) => <p className="box">{message.name}:{message.content}</p>)}
             <hr/>
-            <TextField
-                label="message"
-                variant="outlined"
-                value={message}
-                onChange={(e) => { setMessage(e.target.value) }}
-              />
-            <Button
-                variant="contained"
-                onClick={submit}
-            >
-                send
-            </Button>
+            <div style={{display: 'flex'}}>
+                <div>
+                    <TextField
+                        label="message"
+                        variant="outlined"
+                        value={message}
+                        onChange={(e) => { setMessage(e.target.value) }}
+                    />
+
+                </div>
+                <div style={{marginLeft: '20px', lineHeight: '53px'}}>
+                    <Button
+                        color="primary"
+                        variant="contained"
+                        onClick={submit}
+                    >
+                        send
+                    </Button>
+
+                </div>
+            </div>
             {/* <Button onClick={logout} variant="contained" fullWidth>Logout</Button> */}
         </div>
     )
