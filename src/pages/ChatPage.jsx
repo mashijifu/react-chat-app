@@ -66,6 +66,7 @@ const ChatPage = () => {
             <TextField
                 label="message"
                 variant="outlined"
+                value={message}
                 onChange={(e) => { setMessage(e.target.value) }}
               />
             <Button
