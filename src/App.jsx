@@ -5,6 +5,7 @@ import LoginPage from './pages/LoginPage'
 import SignUpPage from './pages/SignUpPage'
 import Auth from './Auth'
 import IsLogedIn from './IsLogedIn'
+import LoginCheck from './LoginCheck'
 
 function App() {
     const [state, setState]=useState()
@@ -12,6 +13,7 @@ function App() {
     return (
         <Auth>
             <BrowserRouter>
+                <LoginCheck />
                 <Link to="/chat">Chat</Link>
                 <Link to="/login">Login</Link>
                 <Link to="/signup">signup</Link>
