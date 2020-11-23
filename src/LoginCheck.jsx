@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from 'react'
+import {Redirect} from 'react-router-dom'
 import { AuthContext } from "./Auth"
 import firebase from './firebase'
 
@@ -18,6 +19,8 @@ const LoginCheck = () => {
   }, [])
 
   return null
+
+//   return user? <Redirect to="/" /> : <Redirect to="/login" />
 }
 
 export default LoginCheck

@@ -2,6 +2,8 @@ import React, {useState, useContext, useEffect} from 'react'
 import Button from "@material-ui/core/Button"
 import { AuthContext } from "../Auth"
 import firebase, {db} from "../firebase"
+import styles from "../Chat.module.scss"
+import styled from "styled-components"
 
 import TextField from "@material-ui/core/TextField"
 
@@ -15,6 +17,7 @@ const ChatPage = () => {
         db.collection("messages").add({
             name: userName,
             content: message,
+            // sendAt: firebase.timestamp(),
         })
         .then(function(docRef) {
             console.log("成功！");
@@ -32,7 +35,7 @@ const ChatPage = () => {
     }, [])
 
     useEffect(() => {
-        db.collection("messages").get().then((docs) => {
+        db.collection("messages").onSnapshot((docs) => {
             const getMessages=[]
             docs.forEach((doc) => {
                 getMessages.push(doc.data())
@@ -40,16 +43,6 @@ const ChatPage = () => {
             setMessages(getMessages)
         })
     }, [])
-
-    // useEffect(() => {
-    //     db.collection("messages").get().then((querySnapshot) => {
-    //         const getMessages=[]
-    //         querySnapshot.forEach((doc) => {
-    //             getMessages.push(doc.data())
-    //         })
-    //         setMessages(getMessages)
-    //     })
-    // }, [messages])
 
     const logout = () => {
         firebase.auth().signOut().then(function() {
@@ -59,12 +52,27 @@ const ChatPage = () => {
           });
     }
 
+    const jsStyle = {
+        color: "blue",
+        backgroundColor: "orange",
+    }
+
+    const StyledComponent = styled.div`
+        p {
+            border: 1px solid #444;
+            border-radius: 4px;
+            margin: 8px;
+        }
+    `
+
     return (
         <div>
-            <h1>Chat</h1>
-            <p>こんにちは!{userName}さん!</p>
+            <h1 className={styles.title}>Chat</h1>
+            <p style={jsStyle}>こんにちは!{userName}さん!</p>
             <hr/>
-            {messages.map((message, index) => <p className="box">{message.name}:{message.content}</p>)}
+            {messages.map((message, index) => 
+                <p>{message.name}:{message.content}</p>
+            )}
             <hr/>
             <div style={{display: 'flex'}}>
                 <div>
