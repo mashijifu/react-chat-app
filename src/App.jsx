@@ -14,14 +14,14 @@ function App() {
         <Auth>
             <BrowserRouter>
                 <LoginCheck />
-                <Link to="/chat">Chat</Link>
+                <Link to="/">Chat</Link>
                 <Link to="/login">Login</Link>
                 <Link to="/signup">signup</Link>
                 <Switch>
                     <Route exact path="/login" component={LoginPage} />
                     <Route exact path="/signup" component={SignUpPage} />
                     <IsLogedIn>
-                        <Route exact path="/chat" component={ChatPage} />
+                        <Route exact path="/" component={ChatPage} />
                     </IsLogedIn>
                 </Switch>
             </BrowserRouter>
