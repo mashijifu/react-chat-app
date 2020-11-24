@@ -1,10 +1,12 @@
 import React, {useState, useContext, useEffect} from 'react'
-import Button from "@material-ui/core/Button"
 import { AuthContext } from "../Auth"
 import firebase, {db} from "../firebase"
+import Message from "../Message/Message"
+
 import styles from "../Chat.module.scss"
 import styled from "styled-components"
 
+import Button from "@material-ui/core/Button"
 import TextField from "@material-ui/core/TextField"
 
 const ChatPage = () => {
@@ -17,7 +19,7 @@ const ChatPage = () => {
         db.collection("messages").add({
             name: userName,
             content: message,
-            // sendAt: firebase.timestamp(),
+            sendAt: Date.now(),
         })
         .then(function(docRef) {
             console.log("成功！");
@@ -40,6 +42,11 @@ const ChatPage = () => {
             docs.forEach((doc) => {
                 getMessages.push(doc.data())
             })
+            getMessages.sort((a, b) => {
+                if (a.sendAt < b.sendAt) return 1;
+                if (a.sendAt > b.sendAt) return -1;
+                return 0;
+            });
             setMessages(getMessages)
         })
     }, [])
@@ -71,13 +78,13 @@ const ChatPage = () => {
             <p style={jsStyle}>こんにちは!{userName}さん!</p>
             <hr/>
             {messages.map((message, index) => 
-                <p>{message.name}:{message.content}</p>
+                <Message key={index} message={message} />
             )}
             <hr/>
             <div style={{display: 'flex'}}>
                 <div>
                     <TextField
-                        label="message"
+                        label="Message"
                         variant="outlined"
                         value={message}
                         onChange={(e) => { setMessage(e.target.value) }}
@@ -95,7 +102,7 @@ const ChatPage = () => {
 
                 </div>
             </div>
-            {/* <Button onClick={logout} variant="contained" fullWidth>Logout</Button> */}
+            <Button onClick={logout} variant="contained" fullWidth>Logout</Button>
         </div>
     )
 }
